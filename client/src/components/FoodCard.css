@@ -1,0 +1,102 @@
+.food-card {
+  background: white;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: .3s;
+}
+
+.food-card:hover {
+  transform: translateY(-7px);
+  box-shadow: var(--shadow);
+}
+
+.food-img-container {
+  height: 210px;
+  position: relative;
+  overflow: hidden;
+}
+
+.food-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: .5s;
+}
+
+.food-card:hover img {
+  transform: scale(1.06);
+}
+
+.category-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.92);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.food-body {
+  padding: 19px;
+}
+
+.food-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.food-heading h3 {
+  font-size: 18px;
+}
+
+.rating {
+  color: #e6a400;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.food-body p {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 9px 0 17px;
+}
+
+.food-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.food-bottom span {
+  color: #777;
+  font-size: 12px;
+  display: flex;
+  gap: 5px;
+}
+
+.food-bottom strong {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.food-delete {
+  margin-top: 17px;
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff0ed;
+  color: #c53c23;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+}

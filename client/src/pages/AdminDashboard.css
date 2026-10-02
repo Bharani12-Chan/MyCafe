@@ -1,0 +1,215 @@
+.admin-page {
+  max-width: 1280px;
+  margin: auto;
+  padding: 50px 24px 100px;
+}
+
+.admin-header > span {
+  color: var(--primary);
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.admin-header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 43px;
+  margin: 7px 0;
+}
+
+.admin-header p {
+  color: var(--text);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 32px 0;
+}
+
+.stat {
+  padding: 22px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.stat > span {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  background: #fff0eb;
+  color: var(--primary);
+  border-radius: 13px;
+}
+
+.stat div {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat small {
+  color: #888;
+}
+
+.stat strong {
+  font-size: 23px;
+  margin-top: 3px;
+}
+
+.stat .latest-name {
+  font-size: 16px;
+}
+
+.admin-workspace {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 25px;
+  align-items: start;
+}
+
+.add-panel,
+.menu-panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 23px;
+  padding: 25px;
+}
+
+.add-panel {
+  position: sticky;
+  top: 100px;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.panel-heading > span {
+  background: var(--dark);
+  color: white;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 22px;
+}
+
+.panel-heading h2,
+.menu-panel-title h2 {
+  font-size: 20px;
+}
+
+.panel-heading p,
+.menu-panel-title p {
+  color: #888;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.add-panel label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  margin: 16px 0;
+}
+
+.add-panel input,
+.add-panel textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 7px;
+  outline: none;
+  resize: vertical;
+}
+
+.add-panel input:focus,
+.add-panel textarea:focus {
+  border-color: var(--primary);
+}
+
+.add-panel label small {
+  display: block;
+  margin-top: 6px;
+  color: #999;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.two-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.add-food-btn {
+  width: 100%;
+  border: none;
+  border-radius: 11px;
+  padding: 13px;
+  background: var(--dark);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.admin-message {
+  background: #eaf8f2;
+  color: var(--green);
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.menu-panel-title {
+  margin-bottom: 20px;
+}
+
+.admin-food-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 1000px) {
+  .admin-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .add-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-food-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-page {
+    padding: 30px 16px;
+  }
+
+  .admin-header h1 {
+    font-size: 35px;
+  }
+}
