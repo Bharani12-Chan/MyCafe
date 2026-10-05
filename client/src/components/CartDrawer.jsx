@@ -1,5 +1,6 @@
+import { useState } from "react";
+
 import {
-  CheckCircle2,
   Minus,
   Plus,
   ShoppingBag,
@@ -8,12 +9,10 @@ import {
 } from "lucide-react";
 
 import {
-  useState,
-} from "react";
-
-import {
   useCart,
 } from "../context/CartContext";
+
+import DemoPayment from "./DemoPayment";
 
 import "./CartDrawer.css";
 
@@ -32,7 +31,7 @@ function CartDrawer() {
     subtotal,
   } = useCart();
 
-  const [orderPlaced, setOrderPlaced] =
+  const [checkout, setCheckout] =
     useState(false);
 
   const deliveryFee =
@@ -41,32 +40,41 @@ function CartDrawer() {
   const total =
     subtotal + deliveryFee;
 
-  const placeOrder = () => {
-    if (cart.length === 0) return;
 
-    setOrderPlaced(true);
+  const closeDrawer = () => {
+    setCheckout(false);
+    setCartOpen(false);
   };
 
-  const finishOrder = () => {
+
+  const startCheckout = () => {
+    if (cart.length === 0) return;
+
+    setCheckout(true);
+  };
+
+
+  const paymentComplete = () => {
     clearCart();
 
-    setOrderPlaced(false);
+    setCheckout(false);
 
     setCartOpen(false);
   };
 
+
   return (
     <>
+
       <div
         className={
           cartOpen
             ? "cart-overlay show"
             : "cart-overlay"
         }
-        onClick={() =>
-          setCartOpen(false)
-        }
+        onClick={closeDrawer}
       />
+
 
       <aside
         className={
@@ -76,45 +84,22 @@ function CartDrawer() {
         }
       >
 
-        {orderPlaced ? (
+        {checkout ? (
 
-          <div className="order-success">
-
-            <div className="success-icon">
-              <CheckCircle2 />
-            </div>
-
-            <span>
-              ORDER CONFIRMED
-            </span>
-
-            <h2>
-              Your food is on its way!
-            </h2>
-
-            <p>
-              Thanks for ordering with
-              FoodRush. Your delicious
-              meal is now being prepared.
-            </p>
-
-            <div className="success-total">
-              <small>
-                Order Total
-              </small>
-
-              <strong>
-                ₹{total}
-              </strong>
-            </div>
-
-            <button
-              onClick={finishOrder}
-            >
-              Continue Exploring
-            </button>
-
-          </div>
+          <DemoPayment
+            cart={cart}
+            subtotal={subtotal}
+            deliveryFee={
+              deliveryFee
+            }
+            total={total}
+            onBack={() =>
+              setCheckout(false)
+            }
+            onSuccess={
+              paymentComplete
+            }
+          />
 
         ) : (
 
@@ -136,14 +121,15 @@ function CartDrawer() {
 
               <button
                 className="close-cart"
-                onClick={() =>
-                  setCartOpen(false)
+                onClick={
+                  closeDrawer
                 }
               >
                 <X />
               </button>
 
             </div>
+
 
             <div className="cart-body">
 
@@ -160,13 +146,14 @@ function CartDrawer() {
                   </h3>
 
                   <p>
-                    Add something delicious
-                    from our menu.
+                    Add something
+                    delicious from our
+                    menu.
                   </p>
 
                   <button
-                    onClick={() =>
-                      setCartOpen(false)
+                    onClick={
+                      closeDrawer
                     }
                   >
                     Explore Menu
@@ -190,7 +177,8 @@ function CartDrawer() {
                       }
                       alt={item.name}
                       onError={(e) => {
-                        e.currentTarget.src =
+                        e.currentTarget
+                          .src =
                           fallbackImage;
                       }}
                     />
@@ -200,6 +188,7 @@ function CartDrawer() {
                       <div className="cart-item-top">
 
                         <div>
+
                           <h4>
                             {item.name}
                           </h4>
@@ -207,6 +196,7 @@ function CartDrawer() {
                           <span>
                             ₹{item.price}
                           </span>
+
                         </div>
 
                         <button
@@ -223,6 +213,7 @@ function CartDrawer() {
                         </button>
 
                       </div>
+
 
                       <div className="cart-item-bottom">
 
@@ -241,7 +232,9 @@ function CartDrawer() {
                           </button>
 
                           <span>
-                            {item.quantity}
+                            {
+                              item.quantity
+                            }
                           </span>
 
                           <button
@@ -278,18 +271,26 @@ function CartDrawer() {
 
             </div>
 
+
             {cart.length > 0 && (
 
               <div className="cart-summary">
 
                 <div>
-                  <span>Subtotal</span>
+
+                  <span>
+                    Subtotal
+                  </span>
+
                   <strong>
                     ₹{subtotal}
                   </strong>
+
                 </div>
 
+
                 <div>
+
                   <span>
                     Delivery fee
                   </span>
@@ -297,27 +298,42 @@ function CartDrawer() {
                   <strong>
                     ₹{deliveryFee}
                   </strong>
+
                 </div>
 
+
                 <div className="cart-total">
-                  <span>Total</span>
+
+                  <span>
+                    Total
+                  </span>
 
                   <strong>
                     ₹{total}
                   </strong>
+
                 </div>
+
 
                 <button
                   className="place-order-btn"
-                  onClick={placeOrder}
+                  onClick={
+                    startCheckout
+                  }
                 >
-                  Place Order
-                  <span>₹{total}</span>
+
+                  Proceed to Payment
+
+                  <span>
+                    ₹{total}
+                  </span>
+
                 </button>
 
+
                 <small>
-                  Secure checkout • Fresh
-                  food • Fast delivery
+                  Demo checkout • No real
+                  payment will be charged
                 </small>
 
               </div>
@@ -329,6 +345,7 @@ function CartDrawer() {
         )}
 
       </aside>
+
     </>
   );
 }
