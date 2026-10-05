@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -7,25 +8,41 @@ import axios from "axios";
 
 import {
   Search,
+  ShoppingBag,
   Sparkles,
 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import FoodCard from "../components/FoodCard";
+import CategoryFilter from "../components/CategoryFilter";
+
+import {
+  useCart,
+} from "../context/CartContext";
 
 import "./UserDashboard.css";
 
-
 function UserDashboard() {
-
   const user = JSON.parse(
-    localStorage.getItem("user") || "{}"
+    localStorage.getItem("user") ||
+      "{}"
   );
 
+  const {
+    cartCount,
+    setCartOpen,
+  } = useCart();
 
-  const [foods, setFoods] = useState([]);
+  const [foods, setFoods] =
+    useState([]);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
+
+  const [
+    selectedCategory,
+    setSelectedCategory,
+  ] = useState("All");
 
   const [loading, setLoading] =
     useState(true);
@@ -33,155 +50,181 @@ function UserDashboard() {
   const [error, setError] =
     useState("");
 
-
-  // ========================================
-  // FETCH FOODS
-  // ========================================
-
   const fetchFoods = async () => {
-
     try {
-
       setError("");
 
-
-      const { data } = await axios.get(
-        "/api/foods"
-      );
-
+      const { data } =
+        await axios.get(
+          "/api/foods"
+        );
 
       setFoods(data);
 
-
     } catch (error) {
-
       console.error(
         "Unable to load foods:",
         error
       );
 
-
       setError(
-        "Unable to load food items."
+        "Unable to load the menu."
       );
 
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
-
   useEffect(() => {
-
     fetchFoods();
-
   }, []);
 
+  const filteredFoods =
+    useMemo(() => {
+      return foods.filter(
+        (food) => {
+          const searchMatch =
+            `${food.name} ${food.category} ${food.description}`
+              .toLowerCase()
+              .includes(
+                search.toLowerCase()
+              );
 
-  // ========================================
-  // SEARCH
-  // ========================================
+          const categoryMatch =
+            selectedCategory ===
+              "All" ||
+            food.category
+              ?.toLowerCase()
+              .includes(
+                selectedCategory
+                  .toLowerCase()
+              );
 
-  const filtered = foods.filter(
-    (food) =>
-
-      `${food.name} ${food.category}`
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
-
-  );
-
+          return (
+            searchMatch &&
+            categoryMatch
+          );
+        }
+      );
+    }, [
+      foods,
+      search,
+      selectedCategory,
+    ]);
 
   return (
-
     <>
-
       <Navbar />
 
+      <main className="menu-page">
 
-      <main className="user-page">
-
-
-        <section className="user-welcome">
-
+        <section className="menu-hero">
 
           <div>
 
-            <span className="dashboard-label">
-              YOUR FOOD DASHBOARD
-            </span>
-
+            <div className="menu-welcome">
+              <Sparkles size={15} />
+              WELCOME BACK,
+              {user.name?.toUpperCase() ||
+                "FOOD LOVER"}
+            </div>
 
             <h1>
-              Welcome back,{" "}
-              {user.name || "Food Lover"} 👋
+              What are you
+              <br />
+              craving <span>today?</span>
             </h1>
 
-
             <p>
-              Discover the newest dishes
-              added to FoodRush.
+              Fresh flavours, exciting
+              dishes and something
+              delicious for every mood.
             </p>
 
           </div>
 
+          <button
+            className="mobile-cart-card"
+            onClick={() =>
+              setCartOpen(true)
+            }
+          >
 
-          <div className="welcome-icon">
+            <ShoppingBag />
 
-            <Sparkles />
+            <div>
+              <small>
+                YOUR CART
+              </small>
 
-          </div>
+              <strong>
+                {cartCount} items
+              </strong>
+            </div>
 
+          </button>
 
         </section>
 
 
-        <div className="search-box">
+        <section className="menu-tools">
 
-          <Search size={19} />
+          <div className="menu-search">
 
+            <Search size={19} />
 
-          <input
-            type="text"
-            placeholder="Search food or category..."
-            value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
+            <input
+              type="text"
+              placeholder="Search burgers, pizza, biryani..."
+              value={search}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
+            />
+
+          </div>
+
+          <CategoryFilter
+            selected={
+              selectedCategory
+            }
+            onSelect={
+              setSelectedCategory
             }
           />
 
-        </div>
+        </section>
 
 
-        <section className="latest">
+        <section className="food-menu">
 
-
-          <div className="latest-heading">
-
+          <div className="menu-heading">
 
             <div>
-
               <span>
                 FRESH FROM THE KITCHEN
               </span>
 
               <h2>
-                Latest additions
+                Explore our menu
               </h2>
 
+              <p>
+                Hand-picked favourites,
+                freshly prepared for you.
+              </p>
             </div>
 
-
             <strong>
-              {filtered.length} dishes
+              {filteredFoods.length}
+              {" "}
+              {filteredFoods.length === 1
+                ? "dish"
+                : "dishes"}
             </strong>
-
 
           </div>
 
@@ -189,58 +232,78 @@ function UserDashboard() {
           {loading ? (
 
             <div className="loading">
-
-              Loading delicious food...
-
+              Preparing the menu...
             </div>
 
           ) : error ? (
 
             <div className="empty-state">
-
               {error}
-
             </div>
 
-          ) : filtered.length === 0 ? (
+          ) :
+          filteredFoods.length ===
+          0 ? (
 
             <div className="empty-state">
-
-              No food found.
-              Try another search.
-
+              No dishes match your
+              search. Try another
+              category.
             </div>
 
           ) : (
 
-            <div className="dashboard-grid">
+            <div className="food-grid">
 
+              {filteredFoods.map(
+                (food) => (
 
-              {filtered.map((food) => (
+                  <FoodCard
+                    food={food}
+                    key={food._id}
+                  />
 
-                <FoodCard
-                  food={food}
-                  key={food._id}
-                />
-
-              ))}
-
+                )
+              )}
 
             </div>
 
           )}
 
-
         </section>
 
 
+        <section className="menu-bottom-banner">
+
+          <div>
+
+            <span>
+              MADE FRESH. DELIVERED FAST.
+            </span>
+
+            <h2>
+              Happiness is just one
+              order away.
+            </h2>
+
+          </div>
+
+          <button
+            onClick={() =>
+              setCartOpen(true)
+            }
+          >
+            <ShoppingBag size={18} />
+            View Cart
+            {cartCount > 0 &&
+              ` (${cartCount})`}
+          </button>
+
+        </section>
+
       </main>
-
     </>
-
   );
-
 }
-
 
 export default UserDashboard;

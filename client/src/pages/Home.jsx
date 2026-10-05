@@ -1,113 +1,205 @@
 import {
   ArrowRight,
-  Bike,
+  Clock3,
   Leaf,
+  Search,
   ShieldCheck,
+  Sparkles,
   Star,
+  Truck,
 } from "lucide-react";
 
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 import Navbar from "../components/Navbar";
+
 import "./Home.css";
 
-const foods = [
+const popularFoods = [
   {
-    title: "Craft Burgers",
+    name: "Smoky Chicken Burger",
+    category: "Burger",
+    price: 199,
+    rating: "4.9",
     image:
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=85",
   },
   {
-    title: "Italian Pizza",
+    name: "Italian Margherita",
+    category: "Pizza",
+    price: 299,
+    rating: "4.8",
     image:
-      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=85",
   },
   {
-    title: "Healthy Bowls",
+    name: "Garden Fresh Bowl",
+    category: "Healthy",
+    price: 249,
+    rating: "4.9",
     image:
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=85",
   },
 ];
 
 function Home() {
+  const navigate = useNavigate();
+
+  const token =
+    localStorage.getItem("token");
+
+  let user = null;
+
+  try {
+    user = JSON.parse(
+      localStorage.getItem("user")
+    );
+  } catch {
+    user = null;
+  }
+
+  const exploreMenu = () => {
+    if (!token) {
+      navigate("/register");
+      return;
+    }
+
+    navigate(
+      user?.role === "admin"
+        ? "/admin"
+        : "/dashboard"
+    );
+  };
+
   return (
     <>
       <Navbar />
 
-      <main>
+      <main className="home-page">
+
+        {/* HERO */}
 
         <section className="hero">
 
-          <div className="hero-text">
+          <div className="hero-content">
 
             <div className="hero-badge">
-              <Star size={15} fill="currentColor" />
-              Loved by food lovers
+              <Sparkles size={15} />
+              Fresh food, delivered fast
             </div>
 
             <h1>
-              Great food.
+              Good food.
               <br />
-              <span>Delivered fresh.</span>
+
+              <span>
+                Better moments.
+              </span>
             </h1>
 
             <p>
-              Discover delicious meals, exciting new
-              dishes and fresh flavours prepared for
-              every craving.
+              Discover delicious dishes
+              made fresh and delivered
+              straight to your door.
+              FoodRush makes every meal
+              feel special.
             </p>
 
-            <div className="hero-buttons">
-              <Link
-                to="/register"
-                className="hero-primary"
+            <div className="hero-actions">
+
+              <button
+                className="primary-hero-btn"
+                onClick={exploreMenu}
               >
                 Explore Menu
                 <ArrowRight size={18} />
-              </Link>
+              </button>
 
-              <Link
-                to="/login"
-                className="hero-secondary"
-              >
-                Sign In
-              </Link>
+              {!token && (
+                <Link
+                  to="/login"
+                  className="secondary-hero-btn"
+                >
+                  Sign In
+                </Link>
+              )}
+
             </div>
 
-            <div className="mini-features">
-              <span>
-                <Bike />
-                Fast Delivery
-              </span>
+            <div className="hero-trust">
 
-              <span>
-                <Leaf />
-                Fresh Food
-              </span>
+              <div className="avatar-stack">
+                <span>A</span>
+                <span>K</span>
+                <span>R</span>
+                <span>S</span>
+              </div>
 
-              <span>
-                <ShieldCheck />
-                Secure
-              </span>
+              <div>
+                <div className="hero-stars">
+                  <Star />
+                  <Star />
+                  <Star />
+                  <Star />
+                  <Star />
+                </div>
+
+                <small>
+                  Loved by 2,000+ food
+                  lovers
+                </small>
+              </div>
+
             </div>
 
           </div>
 
-          <div className="hero-image">
+          <div className="hero-visual">
 
-            <div className="orange-shape"></div>
+            <div className="hero-image-frame">
 
-            <img
-              src="https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1000&q=85"
-              alt="Fresh delicious food"
-            />
+              <img
+                src="https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1100&q=90"
+                alt="Fresh delicious food"
+              />
 
-            <div className="hero-floating">
-              <span>🔥</span>
+            </div>
+
+            <div className="floating-card delivery-card">
+              <span>
+                <Truck size={19} />
+              </span>
 
               <div>
-                <small>Trending today</small>
-                <strong>Fresh & Tasty</strong>
+                <strong>
+                  Fast Delivery
+                </strong>
+
+                <small>
+                  20-30 minutes
+                </small>
+              </div>
+            </div>
+
+            <div className="floating-card rating-card">
+              <span>
+                <Star
+                  size={18}
+                  fill="currentColor"
+                />
+              </span>
+
+              <div>
+                <strong>
+                  4.9 Rating
+                </strong>
+
+                <small>
+                  Excellent food
+                </small>
               </div>
             </div>
 
@@ -116,88 +208,198 @@ function Home() {
         </section>
 
 
-        <section className="popular">
+        {/* BENEFITS */}
 
-          <div className="popular-title">
+        <section className="home-benefits">
+
+          <div>
+            <span>
+              <Clock3 />
+            </span>
+
+            <section>
+              <strong>
+                Quick Delivery
+              </strong>
+
+              <small>
+                Hot food at your door
+              </small>
+            </section>
+          </div>
+
+          <div>
+            <span>
+              <Leaf />
+            </span>
+
+            <section>
+              <strong>
+                Fresh Ingredients
+              </strong>
+
+              <small>
+                Quality in every bite
+              </small>
+            </section>
+          </div>
+
+          <div>
+            <span>
+              <ShieldCheck />
+            </span>
+
+            <section>
+              <strong>
+                Easy Ordering
+              </strong>
+
+              <small>
+                Simple & secure
+              </small>
+            </section>
+          </div>
+
+        </section>
+
+
+        {/* POPULAR */}
+
+        <section className="popular-section">
+
+          <div className="home-section-heading">
+
             <div>
-              <span className="section-label">
-                POPULAR CHOICES
+              <span>
+                CUSTOMER FAVOURITES
               </span>
 
               <h2>
-                Made for every craving.
+                Popular right now
               </h2>
             </div>
 
-            <p>
-              From comfort food to healthy favourites,
-              discover something you'll love.
-            </p>
+            <button
+              onClick={exploreMenu}
+            >
+              View full menu
+              <ArrowRight size={17} />
+            </button>
+
           </div>
 
-          <div className="home-food-grid">
+          <div className="popular-grid">
 
-            {foods.map((food) => (
-              <div
-                className="home-food"
-                key={food.title}
-              >
-                <img
-                  src={food.image}
-                  alt={food.title}
-                />
+            {popularFoods.map(
+              (food) => (
 
-                <div>
-                  <h3>{food.title}</h3>
-                  <span>Discover →</span>
-                </div>
-              </div>
-            ))}
+                <article
+                  className="popular-card"
+                  key={food.name}
+                >
+
+                  <div className="popular-image">
+
+                    <img
+                      src={food.image}
+                      alt={food.name}
+                    />
+
+                    <span>
+                      <Star
+                        size={14}
+                        fill="currentColor"
+                      />
+                      {food.rating}
+                    </span>
+
+                  </div>
+
+                  <div className="popular-info">
+
+                    <small>
+                      {food.category}
+                    </small>
+
+                    <div>
+                      <h3>
+                        {food.name}
+                      </h3>
+
+                      <strong>
+                        ₹{food.price}
+                      </strong>
+                    </div>
+
+                  </div>
+
+                </article>
+
+              )
+            )}
 
           </div>
 
         </section>
 
+
+        {/* CTA */}
 
         <section className="home-cta">
 
           <div>
-            <span>YOUR NEXT MEAL AWAITS</span>
+
+            <span>
+              READY WHEN YOU ARE
+            </span>
 
             <h2>
-              Hungry for something amazing?
+              Your next favourite meal
+              is one click away.
             </h2>
 
             <p>
-              Create your account and discover
-              our latest food additions.
+              Fresh flavours. Easy ordering.
+              Happiness delivered.
             </p>
+
           </div>
 
-          <Link to="/register">
-            Start Exploring
+          <button
+            onClick={exploreMenu}
+          >
+            Order Something Delicious
             <ArrowRight size={18} />
-          </Link>
+          </button>
 
         </section>
 
       </main>
 
-      <footer className="footer">
 
-        <div className="footer-brand">
-          Food<span>Rush</span>
+      <footer className="home-footer">
+
+        <div className="footer-inner">
+
+          <div>
+            <strong>
+              Food<span>Rush</span>
+            </strong>
+
+            <p>
+              Great food. Better moments.
+            </p>
+          </div>
+
+          <small>
+            © 2026 FoodRush.
+            Made with passion for food.
+          </small>
+
         </div>
 
-        <p>
-          Fresh food. Fast delivery. Happy moments.
-        </p>
-
-        <small>
-          © 2026 FoodRush. All rights reserved.
-        </small>
-
       </footer>
+
     </>
   );
 }

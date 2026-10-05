@@ -1,114 +1,213 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
-  Menu,
-  X,
-  ShoppingBag,
-  LogOut,
+  useState,
+} from "react";
+
+import {
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+import {
   LayoutDashboard,
+  LogOut,
+  Menu,
+  ShoppingBag,
+  UtensilsCrossed,
+  X,
 } from "lucide-react";
+
+import {
+  useCart,
+} from "../context/CartContext";
 
 import "./Navbar.css";
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] =
+    useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const user = JSON.parse(
-    localStorage.getItem("user") || "null"
-  );
+  const {
+    cartCount,
+    setCartOpen,
+  } = useCart();
+
+  const token =
+    localStorage.getItem("token");
+
+  let user = null;
+
+  try {
+    user = JSON.parse(
+      localStorage.getItem("user")
+    );
+  } catch {
+    user = null;
+  }
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    setOpen(false);
+    setMenuOpen(false);
+
     navigate("/");
   };
 
+  const closeMenu = () =>
+    setMenuOpen(false);
+
+  const dashboardPath =
+    user?.role === "admin"
+      ? "/admin"
+      : "/dashboard";
+
   return (
-    <header className="nav-wrapper">
-      <nav className="navbar">
+    <header className="main-navbar">
+
+      <div className="navbar-inner">
 
         <Link
           to="/"
           className="brand"
-          onClick={() => setOpen(false)}
+          onClick={closeMenu}
         >
+
           <span className="brand-icon">
-            <ShoppingBag size={20} />
+            <UtensilsCrossed size={20} />
           </span>
 
-          Food<span>Rush</span>
+          <span>
+            Food<span>Rush</span>
+          </span>
+
         </Link>
 
-        <button
-          className="mobile-menu"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
+        <nav
+          className={
+            menuOpen
+              ? "nav-links nav-open"
+              : "nav-links"
+          }
         >
-          {open ? <X /> : <Menu />}
-        </button>
-
-        <div className={`nav-menu ${open ? "show" : ""}`}>
 
           <Link
             to="/"
-            onClick={() => setOpen(false)}
+            className={
+              location.pathname === "/"
+                ? "active"
+                : ""
+            }
+            onClick={closeMenu}
           >
             Home
           </Link>
 
-          {user?.role === "user" && (
+          {token && user && (
             <Link
-              to="/dashboard"
-              onClick={() => setOpen(false)}
+              to={dashboardPath}
+              className={
+                location.pathname ===
+                dashboardPath
+                  ? "active"
+                  : ""
+              }
+              onClick={closeMenu}
             >
-              <LayoutDashboard size={17} />
-              Dashboard
+              {user.role === "admin"
+                ? "Admin"
+                : "Menu"}
             </Link>
           )}
 
-          {user?.role === "admin" && (
-            <Link
-              to="/admin"
-              onClick={() => setOpen(false)}
-            >
-              <LayoutDashboard size={17} />
-              Admin
-            </Link>
-          )}
+          {!token ? (
+            <div className="nav-auth">
 
-          {!user ? (
-            <>
               <Link
                 to="/login"
-                onClick={() => setOpen(false)}
+                className="login-link"
+                onClick={closeMenu}
               >
-                Login
+                Sign In
               </Link>
 
               <Link
                 to="/register"
                 className="nav-cta"
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
               >
                 Get Started
               </Link>
-            </>
+
+            </div>
           ) : (
-            <button
-              className="logout"
-              onClick={logout}
-            >
-              <LogOut size={16} />
-              Logout
-            </button>
+            <div className="nav-user-actions">
+
+              <Link
+                to={dashboardPath}
+                className="dashboard-icon"
+                onClick={closeMenu}
+                title="Dashboard"
+              >
+                <LayoutDashboard
+                  size={19}
+                />
+              </Link>
+
+              {user?.role !== "admin" && (
+                <button
+                  className="cart-nav-btn"
+                  onClick={() => {
+                    setCartOpen(true);
+                    closeMenu();
+                  }}
+                >
+                  <ShoppingBag
+                    size={19}
+                  />
+
+                  <span>Cart</span>
+
+                  {cartCount > 0 && (
+                    <strong>
+                      {cartCount}
+                    </strong>
+                  )}
+                </button>
+              )}
+
+              <button
+                className="logout-btn"
+                onClick={logout}
+              >
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
+
+            </div>
           )}
 
-        </div>
-      </nav>
+        </nav>
+
+        <button
+          className="mobile-menu"
+          onClick={() =>
+            setMenuOpen(!menuOpen)
+          }
+          aria-label="Open menu"
+        >
+          {menuOpen ? (
+            <X />
+          ) : (
+            <Menu />
+          )}
+        </button>
+
+      </div>
+
     </header>
   );
 }

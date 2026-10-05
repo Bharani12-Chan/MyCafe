@@ -6,9 +6,10 @@ import {
 import axios from "axios";
 
 import {
-  LayoutGrid,
+  Grid3X3,
   Plus,
-  Utensils,
+  Sparkles,
+  UtensilsCrossed,
 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
@@ -16,9 +17,7 @@ import FoodCard from "../components/FoodCard";
 
 import "./AdminDashboard.css";
 
-
 function AdminDashboard() {
-
   const [foods, setFoods] =
     useState([]);
 
@@ -28,88 +27,66 @@ function AdminDashboard() {
   const [loading, setLoading] =
     useState(true);
 
-
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    category: "",
-    price: "",
-    image: "",
-  });
-
+  const [form, setForm] =
+    useState({
+      name: "",
+      description: "",
+      category: "",
+      price: "",
+      image: "",
+    });
 
   const token =
     localStorage.getItem("token");
 
+  let user = {};
 
-  // ========================================
-  // FETCH FOODS
-  // ========================================
+  try {
+    user = JSON.parse(
+      localStorage.getItem("user")
+    );
+  } catch {
+    user = {};
+  }
 
   const fetchFoods = async () => {
-
     try {
-
       const { data } =
         await axios.get(
           "/api/foods"
         );
 
-
       setFoods(data);
 
-
     } catch (error) {
-
       console.error(
-        "Unable to load foods:",
+        "Food Load Error:",
         error
       );
 
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
-
 
   useEffect(() => {
-
     fetchFoods();
-
   }, []);
 
-
-  // ========================================
-  // INPUT CHANGE
-  // ========================================
-
   const change = (e) => {
-
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
-
   };
 
-
-  // ========================================
-  // ADD FOOD
-  // ========================================
-
   const addFood = async (e) => {
-
     e.preventDefault();
 
     setMessage("");
 
-
     try {
-
       await axios.post(
         "/api/foods",
         form,
@@ -121,7 +98,6 @@ function AdminDashboard() {
         }
       );
 
-
       setForm({
         name: "",
         description: "",
@@ -130,54 +106,32 @@ function AdminDashboard() {
         image: "",
       });
 
-
       setMessage(
-        "Food added successfully!"
+        "Dish published successfully!"
       );
-
 
       await fetchFoods();
 
-
     } catch (error) {
-
-      console.error(
-        "Add Food Error:",
-        error
-      );
-
-
       setMessage(
-        error.response?.data?.message ||
-        "Unable to add food."
+        error.response?.data
+          ?.message ||
+          "Unable to add dish."
       );
-
     }
-
   };
 
-
-  // ========================================
-  // DELETE FOOD
-  // ========================================
-
-  const deleteFood = async (id) => {
-
+  const deleteFood = async (
+    id
+  ) => {
     const confirmed =
       window.confirm(
-        "Are you sure you want to delete this food item?"
+        "Delete this dish from the menu?"
       );
 
-
-    if (!confirmed) {
-
-      return;
-
-    }
-
+    if (!confirmed) return;
 
     try {
-
       await axios.delete(
         `/api/foods/${id}`,
         {
@@ -188,251 +142,207 @@ function AdminDashboard() {
         }
       );
 
-
       setMessage(
-        "Food deleted successfully!"
+        "Dish removed successfully."
       );
-
 
       await fetchFoods();
 
-
     } catch (error) {
-
-      console.error(
-        "Delete Food Error:",
-        error
-      );
-
-
       alert(
-        error.response?.data?.message ||
-        "Unable to delete food."
+        error.response?.data
+          ?.message ||
+          "Unable to delete dish."
       );
-
     }
-
   };
-
-
-  // ========================================
-  // CATEGORY COUNT
-  // ========================================
 
   const categories =
     new Set(
       foods.map(
-        (food) => food.category
+        (food) =>
+          food.category
+            ?.toLowerCase()
       )
     ).size;
 
-
   return (
-
     <>
-
       <Navbar />
-
 
       <main className="admin-page">
 
+        <section className="admin-welcome">
 
-        <div className="admin-header">
-
-
-          <span>
-            ADMIN CONTROL CENTER
-          </span>
-
-
-          <h1>
-            Food Management
-          </h1>
-
-
-          <p>
-            Add new dishes and manage
-            your FoodRush menu.
-          </p>
-
-
-        </div>
-
-
-        {/* =================================
-            STATS
-        ================================= */}
-
-
-        <section className="stats">
-
-
-          <div className="stat">
-
+          <div>
 
             <span>
-              <Utensils />
+              <Sparkles size={14} />
+              FOODRUSH ADMIN
             </span>
 
+            <h1>
+              Welcome,{" "}
+              {user?.name ||
+                "Admin"}.
+            </h1>
+
+            <p>
+              Manage your live menu and
+              publish delicious new
+              dishes for customers.
+            </p>
+
+          </div>
+
+          <div className="admin-live">
+            <i />
+            Store is Live
+          </div>
+
+        </section>
+
+
+        <section className="admin-stats">
+
+          <article>
+
+            <span>
+              <UtensilsCrossed />
+            </span>
 
             <div>
-
               <small>
-                Total Foods
+                TOTAL DISHES
               </small>
 
               <strong>
                 {foods.length}
               </strong>
 
+              <p>
+                Live on your menu
+              </p>
             </div>
 
+          </article>
 
-          </div>
-
-
-          <div className="stat">
-
+          <article>
 
             <span>
-              <LayoutGrid />
+              <Grid3X3 />
             </span>
 
-
             <div>
-
               <small>
-                Categories
+                CATEGORIES
               </small>
 
               <strong>
                 {categories}
               </strong>
 
+              <p>
+                Menu collections
+              </p>
             </div>
 
+          </article>
 
-          </div>
-
-
-          <div className="stat">
-
+          <article>
 
             <span>
-              <Plus />
+              <Sparkles />
             </span>
 
-
             <div>
-
               <small>
-                Latest Item
+                LATEST DISH
               </small>
 
-              <strong className="latest-name">
-
-                {foods[0]?.name || "None"}
-
+              <strong className="admin-latest">
+                {foods[0]?.name ||
+                  "No dishes"}
               </strong>
 
+              <p>
+                Most recent addition
+              </p>
             </div>
 
-
-          </div>
-
+          </article>
 
         </section>
 
 
-        {/* =================================
-            ADMIN WORKSPACE
-        ================================= */}
-
-
         <section className="admin-workspace">
 
+          <aside className="admin-form-panel">
 
-          {/* ADD FOOD */}
-
-
-          <div className="add-panel">
-
-
-            <div className="panel-heading">
-
+            <div className="admin-panel-heading">
 
               <span>
-                +
+                <Plus />
               </span>
 
-
               <div>
+                <small>
+                  CREATE
+                </small>
 
                 <h2>
-                  Add New Food
+                  Add New Dish
                 </h2>
-
-                <p>
-                  Create a new menu item.
-                </p>
-
               </div>
-
 
             </div>
 
+            <p className="admin-form-intro">
+              Add a dish and it will
+              instantly become available
+              to your customers.
+            </p>
 
             {message && (
-
               <div className="admin-message">
-
                 {message}
-
               </div>
-
             )}
 
-
-            <form onSubmit={addFood}>
-
+            <form
+              onSubmit={addFood}
+              className="admin-form"
+            >
 
               <label>
-
-                Food Name
+                Dish Name
 
                 <input
-                  type="text"
                   name="name"
                   value={form.name}
                   onChange={change}
-                  placeholder="e.g. Chicken Burger"
+                  placeholder="Chicken Burger"
                   required
                 />
-
               </label>
 
-
-              <div className="two-fields">
-
+              <div className="admin-two-fields">
 
                 <label>
-
                   Category
 
                   <input
-                    type="text"
                     name="category"
-                    value={form.category}
+                    value={
+                      form.category
+                    }
                     onChange={change}
-                    placeholder="e.g. Burger"
+                    placeholder="Burger"
                     required
                   />
-
                 </label>
 
-
                 <label>
-
                   Price ₹
 
                   <input
@@ -444,31 +354,26 @@ function AdminDashboard() {
                     placeholder="199"
                     required
                   />
-
                 </label>
-
 
               </div>
 
-
               <label>
-
                 Description
 
                 <textarea
                   name="description"
-                  value={form.description}
+                  value={
+                    form.description
+                  }
                   onChange={change}
-                  placeholder="Describe this delicious dish..."
                   rows="4"
+                  placeholder="Tell customers what makes this dish special..."
                   required
                 />
-
               </label>
 
-
               <label>
-
                 Image URL
 
                 <input
@@ -476,112 +381,94 @@ function AdminDashboard() {
                   name="image"
                   value={form.image}
                   onChange={change}
-                  placeholder="Optional — leave empty for default"
+                  placeholder="https://..."
                 />
 
-
                 <small>
-                  Paste an online image URL
-                  or leave this field empty.
+                  Optional. A default food
+                  image will be used if
+                  empty.
                 </small>
-
               </label>
 
-
-              <button
-                type="submit"
-                className="add-food-btn"
-              >
-
+              <button type="submit">
                 <Plus size={18} />
-
-                Add Food
-
+                Publish Dish
               </button>
-
 
             </form>
 
-
-          </div>
-
-
-          {/* CURRENT MENU */}
+          </aside>
 
 
-          <div className="menu-panel">
+          <section className="admin-menu-panel">
 
-
-            <div className="menu-panel-title">
-
+            <div className="admin-menu-heading">
 
               <div>
+                <span>
+                  LIVE MENU
+                </span>
 
                 <h2>
-                  Current Menu
+                  Your dishes
                 </h2>
 
                 <p>
-                  {foods.length} items available
+                  Everything currently
+                  visible to customers.
                 </p>
-
               </div>
 
+              <strong>
+                {foods.length} items
+              </strong>
 
             </div>
-
 
             {loading ? (
 
               <div className="loading">
-
-                Loading menu...
-
+                Loading your menu...
               </div>
 
             ) : foods.length === 0 ? (
 
               <div className="empty-state">
-
-                No food added yet.
-
+                Your menu is empty.
+                Add your first dish.
               </div>
 
             ) : (
 
               <div className="admin-food-grid">
 
+                {foods.map(
+                  (food) => (
 
-                {foods.map((food) => (
+                    <FoodCard
+                      key={food._id}
+                      food={food}
+                      showDelete
+                      onDelete={
+                        deleteFood
+                      }
+                    />
 
-                  <FoodCard
-                    key={food._id}
-                    food={food}
-                    showDelete={true}
-                    onDelete={deleteFood}
-                  />
-
-                ))}
-
+                  )
+                )}
 
               </div>
 
             )}
 
-
-          </div>
-
+          </section>
 
         </section>
 
-
       </main>
-
     </>
-
   );
-
 }
-
 
 export default AdminDashboard;

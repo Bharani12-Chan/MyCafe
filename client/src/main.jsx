@@ -6,6 +6,11 @@ import {
 } from "react-router-dom";
 
 import App from "./App";
+
+import {
+  CartProvider,
+} from "./context/CartContext";
+
 import "./index.css";
 
 ReactDOM.createRoot(
@@ -13,7 +18,9 @@ ReactDOM.createRoot(
 ).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <CartProvider>
+        <App />
+      </CartProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

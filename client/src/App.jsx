@@ -1,7 +1,7 @@
 import {
-  Routes,
-  Route,
   Navigate,
+  Route,
+  Routes,
 } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -13,88 +13,61 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import CartDrawer from "./components/CartDrawer";
 
 function App() {
-
   return (
+    <>
+      <Routes>
 
-    <Routes>
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-      {/* HOME */}
+        <Route
+          path="/register"
+          element={<Register />}
+        />
 
-      <Route
-        path="/"
-        element={<Home />}
-      />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      {/* LOGIN */}
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
+        />
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+      </Routes>
 
-
-      {/* REGISTER */}
-
-      <Route
-        path="/register"
-        element={<Register />}
-      />
-
-
-      {/* USER DASHBOARD */}
-
-      <Route
-        path="/dashboard"
-        element={
-
-          <ProtectedRoute>
-
-            <UserDashboard />
-
-          </ProtectedRoute>
-
-        }
-      />
-
-
-      {/* ADMIN DASHBOARD */}
-
-      <Route
-        path="/admin"
-        element={
-
-          <ProtectedRoute adminOnly>
-
-            <AdminDashboard />
-
-          </ProtectedRoute>
-
-        }
-      />
-
-
-      {/* UNKNOWN URL */}
-
-      <Route
-        path="*"
-        element={
-          <Navigate
-            to="/"
-            replace
-          />
-        }
-      />
-
-
-    </Routes>
-
+      <CartDrawer />
+    </>
   );
-
 }
-
 
 export default App;
