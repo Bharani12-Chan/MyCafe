@@ -1,34 +1,44 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap");
 
 :root {
-  --primary: #ff5a36;
-  --primary-dark: #e84725;
-  --primary-soft: #fff0eb;
+  /* PREMIUM COFFEE / CHOCOLATE PALETTE */
 
-  --green: #167a5a;
-  --green-soft: #e9f7f1;
+  --primary: #c98245;
+  --primary-dark: #a95f2c;
+  --primary-soft: #f3e1d0;
 
-  --yellow: #f8b84e;
+  --green: #78845b;
+  --green-soft: #edf0e5;
 
-  --dark: #171717;
-  --dark-soft: #272727;
+  --yellow: #d9a45b;
 
-  --text: #686868;
-  --muted: #929292;
+  --dark: #1b0f0a;
+  --dark-soft: #2b1810;
 
-  --cream: #fffaf5;
-  --cream-dark: #f8f0e8;
+  --brown: #3a2118;
+  --brown-light: #5b3828;
+
+  --coffee: #6f4937;
+  --caramel: #c98245;
+
+  --text: #725f55;
+  --muted: #9c8b81;
+
+  --cream: #fbf6f0;
+  --cream-dark: #efe3d7;
 
   --white: #ffffff;
-  --border: #eee6df;
+
+  --border:
+    rgba(78, 47, 32, 0.13);
 
   --shadow:
-    0 20px 60px
-    rgba(44, 28, 16, 0.08);
+    0 24px 65px
+    rgba(37, 18, 10, 0.13);
 
   --shadow-small:
-    0 10px 30px
-    rgba(44, 28, 16, 0.07);
+    0 12px 35px
+    rgba(37, 18, 10, 0.09);
 
   --radius: 24px;
 }
@@ -49,6 +59,7 @@ body {
     sans-serif;
 
   background: var(--cream);
+
   color: var(--dark);
 
   min-height: 100vh;
@@ -78,7 +89,7 @@ img {
 }
 
 ::selection {
-  background: var(--primary);
+  background: var(--caramel);
   color: white;
 }
 
@@ -92,7 +103,7 @@ img {
 }
 
 .section-eyebrow {
-  color: var(--primary);
+  color: var(--caramel);
 
   font-size: 12px;
   font-weight: 800;
@@ -108,7 +119,8 @@ img {
 
   text-align: center;
 
-  border: 1px dashed var(--border);
+  border:
+    1px dashed var(--border);
 
   border-radius: 22px;
 
