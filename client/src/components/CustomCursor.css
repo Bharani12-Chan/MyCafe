@@ -1,0 +1,94 @@
+/* =========================================================
+   FOODRUSH PREMIUM CUSTOM CURSOR
+========================================================= */
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+
+  left: 0;
+  top: 0;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  transform: translate3d(-100px, -100px, 0);
+}
+
+
+/* =========================================================
+   SMALL CENTER DOT
+========================================================= */
+
+.custom-cursor-dot {
+  width: 5px;
+  height: 5px;
+
+  margin-left: -2.5px;
+  margin-top: -2.5px;
+
+  border-radius: 50%;
+
+  background: #d2a764;
+
+  box-shadow:
+    0 0 8px rgba(210, 167, 100, 0.35);
+}
+
+
+/* =========================================================
+   SMALL FOLLOWING CIRCLE
+========================================================= */
+
+.custom-cursor-ring {
+  width: 22px;
+  height: 22px;
+
+  margin-left: -11px;
+  margin-top: -11px;
+
+  border: 1px solid rgba(210, 167, 100, 0.65);
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  transition:
+    width 0.18s ease,
+    height 0.18s ease,
+    margin 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+
+/* =========================================================
+   HOVER STATE
+========================================================= */
+
+.custom-cursor-ring.cursor-hover {
+  width: 32px;
+  height: 32px;
+
+  margin-left: -16px;
+  margin-top: -16px;
+
+  border-color: #d2a764;
+
+  background: rgba(210, 167, 100, 0.08);
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (pointer: coarse),
+(max-width: 900px) {
+
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+}

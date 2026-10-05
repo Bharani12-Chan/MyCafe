@@ -1,0 +1,57 @@
+.marquee-section {
+  overflow: hidden;
+
+  padding: 22px 0;
+
+  background: var(--caramel);
+
+  color: var(--espresso);
+}
+
+.marquee-track {
+  width: max-content;
+
+  display: flex;
+
+  animation:
+    marqueeMove 24s linear infinite;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+
+  white-space: nowrap;
+}
+
+.marquee-item span {
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(20px, 2.2vw, 31px);
+
+  font-weight: 900;
+
+  letter-spacing: -1px;
+}
+
+.marquee-item i {
+  margin: 0 25px;
+
+  font-style: normal;
+
+  font-size: 14px;
+}
+
+@keyframes marqueeMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-section:hover .marquee-track {
+  animation-play-state: paused;
+}

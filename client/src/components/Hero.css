@@ -1,0 +1,756 @@
+.cinematic-home {
+  min-height: 100vh;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 45px;
+
+  overflow: hidden;
+
+  background: #090806;
+
+  color: #f8f3ea;
+}
+
+
+/* =====================================================
+   FULL PAGE BACKGROUND
+===================================================== */
+
+.cinematic-background {
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    url(
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2000&q=90"
+    );
+
+  background-size: cover;
+
+  background-position: center;
+
+  transform: scale(1.04);
+
+  animation:
+    cinematicZoom 16s
+    ease-in-out infinite alternate;
+}
+
+
+@keyframes cinematicZoom {
+
+  from {
+    transform: scale(1.04);
+  }
+
+  to {
+    transform: scale(1.09);
+  }
+}
+
+
+.cinematic-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5,5,4,.92) 0%,
+      rgba(7,6,5,.78) 42%,
+      rgba(7,6,5,.43) 72%,
+      rgba(5,5,4,.7) 100%
+    );
+}
+
+
+/* =====================================================
+   MAIN FRAME
+===================================================== */
+
+.luxury-frame {
+  width:
+    min(
+      1220px,
+      calc(100vw - 90px)
+    );
+
+  min-height: 760px;
+
+  position: relative;
+
+  z-index: 5;
+
+  display: grid;
+
+  grid-template-rows:
+    auto 1fr auto;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(206, 171, 106, .34);
+
+  border-radius: 16px;
+
+  background:
+    rgba(8, 8, 7, 0.73);
+
+  backdrop-filter:
+    blur(4px);
+
+  box-shadow:
+    0 40px 100px
+    rgba(0,0,0,.45);
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.luxury-hero-main {
+  min-height: 535px;
+
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    46% 54%;
+
+  overflow: hidden;
+}
+
+
+/* LEFT SIDE */
+
+.luxury-hero-copy {
+  position: relative;
+
+  z-index: 4;
+
+  padding:
+    80px 20px
+    60px 70px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+
+.luxury-eyebrow {
+  margin-bottom: 18px;
+
+  color: #caa56a;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+.luxury-hero-copy h1 {
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  color: #f7f1e8;
+
+  font-size:
+    clamp(49px, 5vw, 70px);
+
+  font-weight: 600;
+
+  line-height: .98;
+
+  letter-spacing: -2.5px;
+}
+
+
+.luxury-hero-copy h1 em {
+  display: inline-block;
+
+  margin-top: 5px;
+
+  color: #eee4d6;
+
+  font-weight: 500;
+}
+
+
+.luxury-hero-copy > p {
+  max-width: 390px;
+
+  margin-top: 28px;
+
+  color:
+    rgba(255,255,255,.58);
+
+  font-size: 12px;
+
+  line-height: 1.85;
+}
+
+
+/* BUTTONS */
+
+.luxury-hero-actions {
+  margin-top: 32px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 27px;
+}
+
+
+.gold-menu-btn {
+  min-height: 48px;
+
+  padding:
+    0 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  border:
+    1px solid #caa56a;
+
+  background: #caa56a;
+
+  color: #17110c;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  transition:
+    .3s ease;
+}
+
+
+.gold-menu-btn:hover {
+  background: #e1c080;
+
+  border-color: #e1c080;
+
+  transform:
+    translateY(-2px);
+}
+
+
+.story-button {
+  min-height: 48px;
+
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  border: 0;
+
+  background: transparent;
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+
+.story-button > span {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+
+  place-items: center;
+
+  border:
+    1px solid
+    rgba(255,255,255,.65);
+
+  border-radius: 50%;
+
+  transition:
+    .25s;
+}
+
+
+.story-button:hover > span {
+  border-color: #caa56a;
+
+  background: #caa56a;
+
+  color: #17110c;
+
+  transform: scale(1.08);
+}
+
+
+/* =====================================================
+   FOOD IMAGE SIDE
+===================================================== */
+
+.hero-food-focus {
+  min-height: 100%;
+
+  position: relative;
+
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(8,8,7,1) 0%,
+      rgba(8,8,7,.45) 24%,
+      rgba(8,8,7,.02) 65%
+    ),
+    url(
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1300&q=90"
+    );
+
+  background-size: cover;
+
+  background-position:
+    center center;
+
+  transition:
+    transform .8s ease;
+}
+
+
+.hero-food-focus::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      0deg,
+      rgba(5,5,4,.28),
+      transparent 45%
+    );
+}
+
+
+.hero-food-focus:hover {
+  transform: scale(1.015);
+}
+
+
+.hero-food-glow {
+  position: absolute;
+
+  width: 280px;
+  height: 280px;
+
+  right: 10%;
+  bottom: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(196,146,75,.08);
+
+  filter: blur(55px);
+}
+
+
+.hero-food-label {
+  position: absolute;
+
+  right: 25px;
+  bottom: 28px;
+
+  z-index: 3;
+
+  padding: 14px 18px;
+
+  border-left:
+    1px solid #caa56a;
+
+  background:
+    rgba(10,9,7,.5);
+
+  backdrop-filter:
+    blur(10px);
+}
+
+
+.hero-food-label span {
+  display: block;
+
+  color: #caa56a;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+
+.hero-food-label strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 13px;
+
+  line-height: 1.35;
+}
+
+
+/* =====================================================
+   BOTTOM BENEFITS
+===================================================== */
+
+.luxury-benefits {
+  min-height: 132px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  border-top:
+    1px solid
+    rgba(206,171,106,.25);
+
+  background:
+    rgba(8,8,7,.89);
+}
+
+
+.luxury-benefit {
+  padding:
+    30px 36px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  position: relative;
+}
+
+
+.luxury-benefit:not(:last-child)::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+
+  top: 28px;
+
+  bottom: 28px;
+
+  width: 1px;
+
+  background:
+    rgba(206,171,106,.17);
+}
+
+
+.benefit-icon {
+  width: 46px;
+  height: 46px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  color: #caa56a;
+}
+
+
+.luxury-benefit strong {
+  display: block;
+
+  color:
+    rgba(255,255,255,.82);
+
+  font-size: 8px;
+
+  letter-spacing: 1.3px;
+}
+
+
+.luxury-benefit p {
+  max-width: 180px;
+
+  margin-top: 7px;
+
+  color:
+    rgba(255,255,255,.38);
+
+  font-size: 9px;
+
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   OUTSIDE DECORATIVE TEXT
+===================================================== */
+
+.outside-food-note,
+.outside-order-note {
+  position: absolute;
+
+  z-index: 3;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color:
+    rgba(216,181,116,.4);
+
+  font-size: 7px;
+
+  letter-spacing: 2px;
+}
+
+
+.outside-food-note {
+  left: 24px;
+
+  top: 50%;
+
+  transform:
+    rotate(-90deg)
+    translateX(-50%);
+}
+
+
+.outside-order-note {
+  right: 22px;
+
+  bottom: 50%;
+
+  transform:
+    rotate(90deg)
+    translateX(50%);
+}
+
+
+/* =====================================================
+   DESKTOP HOVER
+===================================================== */
+
+.luxury-frame::before {
+  content: "";
+
+  position: absolute;
+
+  left: -150px;
+  top: -150px;
+
+  width: 300px;
+  height: 300px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(202,165,106,.04);
+
+  filter: blur(60px);
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .cinematic-home {
+    padding: 25px;
+  }
+
+  .luxury-frame {
+    width:
+      calc(100vw - 50px);
+  }
+
+  .luxury-hero-main {
+    grid-template-columns:
+      52% 48%;
+  }
+
+  .luxury-hero-copy {
+    padding:
+      60px 30px;
+  }
+
+  .luxury-benefit {
+    padding:
+      25px 20px;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 750px) {
+
+  .cinematic-home {
+    min-height: auto;
+
+    padding: 12px;
+  }
+
+  .luxury-frame {
+    width: 100%;
+
+    min-height: auto;
+
+    border-radius: 12px;
+  }
+
+  .luxury-hero-main {
+    display: flex;
+
+    flex-direction: column;
+  }
+
+  .luxury-hero-copy {
+    min-height: 500px;
+
+    padding:
+      70px 25px 50px;
+
+    order: 1;
+  }
+
+  .luxury-hero-copy h1 {
+    font-size: 49px;
+  }
+
+  .luxury-hero-copy > p {
+    max-width: 100%;
+  }
+
+  .hero-food-focus {
+    min-height: 420px;
+
+    order: 2;
+
+    background-image:
+      linear-gradient(
+        0deg,
+        rgba(8,8,7,.8),
+        transparent 50%
+      ),
+      url(
+        "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90"
+      );
+  }
+
+  .luxury-benefits {
+    grid-template-columns:
+      1fr;
+  }
+
+  .luxury-benefit {
+    min-height: 100px;
+
+    border-bottom:
+      1px solid
+      rgba(206,171,106,.15);
+  }
+
+  .luxury-benefit:not(:last-child)::after {
+    display: none;
+  }
+
+  .outside-food-note,
+  .outside-order-note {
+    display: none;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .luxury-hero-copy {
+    min-height: 470px;
+  }
+
+  .luxury-hero-copy h1 {
+    font-size: 43px;
+
+    letter-spacing: -2px;
+  }
+
+  .luxury-hero-actions {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .gold-menu-btn {
+    width: 100%;
+  }
+
+  .hero-food-focus {
+    min-height: 350px;
+  }
+
+  .hero-food-label {
+    right: 15px;
+    bottom: 15px;
+  }
+}

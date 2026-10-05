@@ -1,64 +1,41 @@
 import {
-  useState,
-} from "react";
-
-import {
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-
-import {
-  LayoutDashboard,
-  LogOut,
   Menu,
   ShoppingBag,
-  UtensilsCrossed,
+  UserRound,
   X,
+  LogOut,
 } from "lucide-react";
 
-import {
-  useCart,
-} from "../context/CartContext";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 import "./Navbar.css";
 
 function Navbar() {
-  const [menuOpen, setMenuOpen] =
+  const navigate = useNavigate();
+
+  const [mobileOpen, setMobileOpen] =
     useState(false);
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const {
-    cartCount,
-    setCartOpen,
-  } = useCart();
+  const { cartCount, setCartOpen } =
+    useCart();
 
   const token =
     localStorage.getItem("token");
 
-  let user = null;
-
-  try {
-    user = JSON.parse(
-      localStorage.getItem("user")
-    );
-  } catch {
-    user = null;
-  }
+  const user = JSON.parse(
+    localStorage.getItem("user") || "null"
+  );
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    setMenuOpen(false);
+    setMobileOpen(false);
 
     navigate("/");
   };
-
-  const closeMenu = () =>
-    setMenuOpen(false);
 
   const dashboardPath =
     user?.role === "admin"
@@ -66,145 +43,132 @@ function Navbar() {
       : "/dashboard";
 
   return (
-    <header className="main-navbar">
+    <header className="luxury-navbar">
 
-      <div className="navbar-inner">
+      <Link
+        to="/"
+        className="luxury-brand"
+      >
+        FOODRUSH
+      </Link>
+
+      <button
+        className="luxury-mobile-toggle"
+        onClick={() =>
+          setMobileOpen(!mobileOpen)
+        }
+        aria-label="Open navigation"
+      >
+        {mobileOpen ? <X /> : <Menu />}
+      </button>
+
+
+      <nav
+        className={
+          mobileOpen
+            ? "luxury-nav-links open"
+            : "luxury-nav-links"
+        }
+      >
 
         <Link
           to="/"
-          className="brand"
-          onClick={closeMenu}
+          onClick={() =>
+            setMobileOpen(false)
+          }
         >
-
-          <span className="brand-icon">
-            <UtensilsCrossed size={20} />
-          </span>
-
-          <span>
-            Food<span>Rush</span>
-          </span>
-
+          HOME
         </Link>
 
-        <nav
-          className={
-            menuOpen
-              ? "nav-links nav-open"
-              : "nav-links"
-          }
-        >
-
-          <Link
-            to="/"
-            className={
-              location.pathname === "/"
-                ? "active"
-                : ""
-            }
-            onClick={closeMenu}
-          >
-            Home
-          </Link>
-
-          {token && user && (
-            <Link
-              to={dashboardPath}
-              className={
-                location.pathname ===
-                dashboardPath
-                  ? "active"
-                  : ""
-              }
-              onClick={closeMenu}
-            >
-              {user.role === "admin"
-                ? "Admin"
-                : "Menu"}
-            </Link>
-          )}
-
-          {!token ? (
-            <div className="nav-auth">
-
-              <Link
-                to="/login"
-                className="login-link"
-                onClick={closeMenu}
-              >
-                Sign In
-              </Link>
-
-              <Link
-                to="/register"
-                className="nav-cta"
-                onClick={closeMenu}
-              >
-                Get Started
-              </Link>
-
-            </div>
-          ) : (
-            <div className="nav-user-actions">
-
-              <Link
-                to={dashboardPath}
-                className="dashboard-icon"
-                onClick={closeMenu}
-                title="Dashboard"
-              >
-                <LayoutDashboard
-                  size={19}
-                />
-              </Link>
-
-              {user?.role !== "admin" && (
-                <button
-                  className="cart-nav-btn"
-                  onClick={() => {
-                    setCartOpen(true);
-                    closeMenu();
-                  }}
-                >
-                  <ShoppingBag
-                    size={19}
-                  />
-
-                  <span>Cart</span>
-
-                  {cartCount > 0 && (
-                    <strong>
-                      {cartCount}
-                    </strong>
-                  )}
-                </button>
-              )}
-
-              <button
-                className="logout-btn"
-                onClick={logout}
-              >
-                <LogOut size={18} />
-                <span>Logout</span>
-              </button>
-
-            </div>
-          )}
-
-        </nav>
-
-        <button
-          className="mobile-menu"
+        <a
+          href="#about"
           onClick={() =>
-            setMenuOpen(!menuOpen)
+            setMobileOpen(false)
           }
-          aria-label="Open menu"
         >
-          {menuOpen ? (
-            <X />
-          ) : (
-            <Menu />
-          )}
-        </button>
+          ABOUT
+        </a>
+
+        <Link
+          to={
+            token
+              ? dashboardPath
+              : "/login"
+          }
+          onClick={() =>
+            setMobileOpen(false)
+          }
+        >
+          MENU
+        </Link>
+
+        <a
+          href="#experience"
+          onClick={() =>
+            setMobileOpen(false)
+          }
+        >
+          EXPERIENCE
+        </a>
+
+        <a
+          href="#contact"
+          onClick={() =>
+            setMobileOpen(false)
+          }
+        >
+          CONTACT
+        </a>
+
+      </nav>
+
+
+      <div className="luxury-nav-actions">
+
+        {token && user ? (
+          <>
+            {user.role !== "admin" && (
+              <button
+                className="luxury-cart-icon"
+                onClick={() =>
+                  setCartOpen(true)
+                }
+                aria-label="Open cart"
+              >
+                <ShoppingBag size={17} />
+
+                {cartCount > 0 && (
+                  <span>
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            )}
+
+            <Link
+              className="luxury-user-icon"
+              to={dashboardPath}
+              aria-label="Dashboard"
+            >
+              <UserRound size={17} />
+            </Link>
+
+            <button
+              className="luxury-logout"
+              onClick={logout}
+              aria-label="Logout"
+            >
+              <LogOut size={16} />
+            </button>
+          </>
+        ) : (
+          <Link
+            className="luxury-order-button"
+            to="/register"
+          >
+            ORDER NOW
+          </Link>
+        )}
 
       </div>
 

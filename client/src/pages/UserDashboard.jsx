@@ -8,175 +8,162 @@ import axios from "axios";
 
 import {
   Search,
-  ShoppingBag,
   Sparkles,
 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import FoodCard from "../components/FoodCard";
-import CategoryFilter from "../components/CategoryFilter";
-
-import {
-  useCart,
-} from "../context/CartContext";
 
 import "./UserDashboard.css";
 
 function UserDashboard() {
-  const user = JSON.parse(
-    localStorage.getItem("user") ||
-      "{}"
-  );
-
-  const {
-    cartCount,
-    setCartOpen,
-  } = useCart();
-
   const [foods, setFoods] =
     useState([]);
-
-  const [search, setSearch] =
-    useState("");
-
-  const [
-    selectedCategory,
-    setSelectedCategory,
-  ] = useState("All");
 
   const [loading, setLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [search, setSearch] =
     useState("");
 
-  const fetchFoods = async () => {
-    try {
-      setError("");
+  const [category, setCategory] =
+    useState("All");
 
+  const user = JSON.parse(
+    localStorage.getItem("user") ||
+    "null"
+  );
+
+
+  const getFoods = async () => {
+    try {
       const { data } =
         await axios.get(
           "/api/foods"
         );
 
       setFoods(data);
-
     } catch (error) {
       console.error(
-        "Unable to load foods:",
+        "Unable to load foods",
         error
       );
-
-      setError(
-        "Unable to load the menu."
-      );
-
     } finally {
       setLoading(false);
     }
   };
 
+
   useEffect(() => {
-    fetchFoods();
+    getFoods();
   }, []);
+
+
+  const categories = useMemo(() => {
+    return [
+      "All",
+      ...new Set(
+        foods
+          .map((food) =>
+            food.category?.trim()
+          )
+          .filter(Boolean)
+      ),
+    ];
+  }, [foods]);
+
 
   const filteredFoods =
     useMemo(() => {
-      return foods.filter(
-        (food) => {
-          const searchMatch =
-            `${food.name} ${food.category} ${food.description}`
-              .toLowerCase()
-              .includes(
-                search.toLowerCase()
-              );
 
-          const categoryMatch =
-            selectedCategory ===
-              "All" ||
-            food.category
-              ?.toLowerCase()
-              .includes(
-                selectedCategory
-                  .toLowerCase()
-              );
+      return foods.filter((food) => {
 
-          return (
-            searchMatch &&
-            categoryMatch
+        const searchable =
+          `${food.name} ${food.category} ${food.description}`
+            .toLowerCase();
+
+        const searchMatch =
+          searchable.includes(
+            search.toLowerCase()
           );
-        }
-      );
+
+        const categoryMatch =
+          category === "All" ||
+          food.category === category;
+
+        return (
+          searchMatch &&
+          categoryMatch
+        );
+
+      });
+
     }, [
       foods,
       search,
-      selectedCategory,
+      category,
     ]);
 
+
   return (
-    <>
+    <main className="menu-page">
+
       <Navbar />
 
-      <main className="menu-page">
 
-        <section className="menu-hero">
+      <section className="menu-hero">
 
-          <div>
+        <div>
 
-            <div className="menu-welcome">
-              <Sparkles size={15} />
-              WELCOME BACK,
-              {user.name?.toUpperCase() ||
-                "FOOD LOVER"}
-            </div>
+          <span>
+            <Sparkles size={14} />
+            FOODRUSH MENU
+          </span>
 
-            <h1>
-              What are you
-              <br />
-              craving <span>today?</span>
-            </h1>
+          <h1>
+            Hey{" "}
+            {user?.name
+              ? user.name.split(" ")[0]
+              : "Foodie"}
+            ,
+            <br />
 
-            <p>
-              Fresh flavours, exciting
-              dishes and something
-              delicious for every mood.
-            </p>
+            <em>
+              what are you craving?
+            </em>
+          </h1>
 
-          </div>
+          <p>
+            Fresh picks, comfort food and
+            everyday favourites — ready
+            when you are.
+          </p>
 
-          <button
-            className="mobile-cart-card"
-            onClick={() =>
-              setCartOpen(true)
-            }
-          >
+        </div>
 
-            <ShoppingBag />
+        <div className="menu-hero-image">
 
-            <div>
-              <small>
-                YOUR CART
-              </small>
+          <img
+            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1100&q=90"
+            alt="Food menu"
+          />
 
-              <strong>
-                {cartCount} items
-              </strong>
-            </div>
+        </div>
 
-          </button>
-
-        </section>
+      </section>
 
 
-        <section className="menu-tools">
+      <section className="menu-content">
+
+        <div className="menu-toolbar">
 
           <div className="menu-search">
 
-            <Search size={19} />
+            <Search size={18} />
 
             <input
               type="text"
-              placeholder="Search burgers, pizza, biryani..."
+              placeholder="Search food, category..."
               value={search}
               onChange={(e) =>
                 setSearch(
@@ -187,122 +174,92 @@ function UserDashboard() {
 
           </div>
 
-          <CategoryFilter
-            selected={
-              selectedCategory
-            }
-            onSelect={
-              setSelectedCategory
-            }
-          />
 
-        </section>
+          <div className="category-scroll">
 
+            {categories.map(
+              (item) => (
 
-        <section className="food-menu">
+                <button
+                  key={item}
+                  className={
+                    category === item
+                      ? "category-pill active"
+                      : "category-pill"
+                  }
+                  onClick={() =>
+                    setCategory(item)
+                  }
+                >
+                  {item}
+                </button>
 
-          <div className="menu-heading">
-
-            <div>
-              <span>
-                FRESH FROM THE KITCHEN
-              </span>
-
-              <h2>
-                Explore our menu
-              </h2>
-
-              <p>
-                Hand-picked favourites,
-                freshly prepared for you.
-              </p>
-            </div>
-
-            <strong>
-              {filteredFoods.length}
-              {" "}
-              {filteredFoods.length === 1
-                ? "dish"
-                : "dishes"}
-            </strong>
+              )
+            )}
 
           </div>
 
-
-          {loading ? (
-
-            <div className="loading">
-              Preparing the menu...
-            </div>
-
-          ) : error ? (
-
-            <div className="empty-state">
-              {error}
-            </div>
-
-          ) :
-          filteredFoods.length ===
-          0 ? (
-
-            <div className="empty-state">
-              No dishes match your
-              search. Try another
-              category.
-            </div>
-
-          ) : (
-
-            <div className="food-grid">
-
-              {filteredFoods.map(
-                (food) => (
-
-                  <FoodCard
-                    food={food}
-                    key={food._id}
-                  />
-
-                )
-              )}
-
-            </div>
-
-          )}
-
-        </section>
+        </div>
 
 
-        <section className="menu-bottom-banner">
+        <div className="menu-heading">
 
           <div>
 
             <span>
-              MADE FRESH. DELIVERED FAST.
+              DISCOVER
             </span>
 
             <h2>
-              Happiness is just one
-              order away.
+              Fresh on the menu.
             </h2>
 
           </div>
 
-          <button
-            onClick={() =>
-              setCartOpen(true)
-            }
-          >
-            <ShoppingBag size={18} />
-            View Cart
-            {cartCount > 0 &&
-              ` (${cartCount})`}
-          </button>
+          <p>
+            {filteredFoods.length}
+            {" "}
+            delicious picks
+          </p>
 
-        </section>
+        </div>
 
-      </main>
-    </>
+
+        {loading ? (
+
+          <div className="loading">
+            Loading something
+            delicious...
+          </div>
+
+        ) : filteredFoods.length === 0 ? (
+
+          <div className="empty-state">
+            No food matches your search.
+          </div>
+
+        ) : (
+
+          <div className="menu-food-grid">
+
+            {filteredFoods.map(
+              (food) => (
+
+                <FoodCard
+                  key={food._id}
+                  food={food}
+                />
+
+              )
+            )}
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
   );
 }
 

@@ -1,254 +1,513 @@
-.main-navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* =========================================================
+   FOODRUSH - PREMIUM LUXURY NAVBAR
+========================================================= */
 
-  width: 100%;
-
-  background:
-    rgba(255, 250, 245, 0.9);
-
-  backdrop-filter:
-    blur(18px);
-
-  border-bottom:
-    1px solid
-    rgba(235, 226, 217, 0.75);
-}
-
-.navbar-inner {
-  width: min(
-    1180px,
-    calc(100% - 40px)
-  );
-
-  min-height: 78px;
-
-  margin: auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 30px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-
-  gap: 10px;
-
-  font-family:
-    "Playfair Display",
-    serif;
-
-  font-size: 25px;
-  font-weight: 800;
-
-  letter-spacing: -0.5px;
-}
-
-.brand > span:last-child > span {
-  color: var(--primary);
-}
-
-.brand-icon {
-  width: 39px;
-  height: 39px;
+.luxury-navbar {
+  min-height: 92px;
+  padding: 0 42px;
 
   display: grid;
-  place-items: center;
+  grid-template-columns: 210px 1fr 210px;
 
-  border-radius: 13px;
-
-  background: var(--primary);
-  color: white;
-
-  box-shadow:
-    0 9px 22px
-    rgba(255, 90, 54, 0.22);
-}
-
-.nav-links {
-  display: flex;
   align-items: center;
 
-  gap: 28px;
+  position: relative;
+  z-index: 50;
+
+  border-bottom: 1px solid rgba(216, 180, 113, 0.14);
+
+  background: rgba(10, 10, 9, 0.78);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-.nav-links > a {
-  color: #626262;
 
-  font-size: 14px;
-  font-weight: 700;
+/* =========================================================
+   LOGO
+========================================================= */
 
-  transition: 0.2s;
+.luxury-brand {
+  color: #f7f2e9;
+
+  font-family: "Playfair Display", Georgia, serif;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  letter-spacing: 6px;
+
+  white-space: nowrap;
+
+  transition: color 0.25s ease;
 }
 
-.nav-links > a:hover,
-.nav-links > a.active {
-  color: var(--dark);
+.luxury-brand:hover {
+  color: #d9b775;
 }
 
-.nav-auth,
-.nav-user-actions {
+
+/* =========================================================
+   CENTER NAVIGATION
+========================================================= */
+
+.luxury-nav-links {
   display: flex;
-  align-items: center;
 
-  gap: 10px;
-}
-
-.login-link {
-  padding: 11px 15px;
-}
-
-.nav-cta {
-  padding: 12px 20px;
-
-  border-radius: 50px;
-
-  background: var(--dark);
-
-  color: white !important;
-}
-
-.dashboard-icon,
-.cart-nav-btn,
-.logout-btn {
-  min-height: 42px;
-
-  border: 1px solid var(--border);
-
-  background: white;
-
-  border-radius: 50px;
-
-  display: flex;
   align-items: center;
   justify-content: center;
 
-  gap: 7px;
-
-  color: var(--dark);
+  gap: clamp(25px, 3vw, 46px);
 }
 
-.dashboard-icon {
-  width: 42px;
+.luxury-nav-links a {
+  position: relative;
+
+  padding: 37px 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: 1.35px;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.cart-nav-btn {
-  padding: 0 14px;
+
+/* NAVBAR HOVER */
+
+.luxury-nav-links a:hover {
+  color: #ffffff;
+
+  transform: translateY(-1px);
 }
 
-.cart-nav-btn strong {
-  min-width: 21px;
-  height: 21px;
 
-  padding: 0 5px;
+/* GOLD UNDERLINE */
 
-  display: grid;
-  place-items: center;
+.luxury-nav-links a::after {
+  content: "";
 
-  background: var(--primary);
+  position: absolute;
 
-  color: white;
+  left: 50%;
+  bottom: 26px;
 
-  border-radius: 50px;
+  width: 0;
+  height: 1px;
+
+  background: #caa56a;
+
+  transform: translateX(-50%);
+
+  transition: width 0.25s ease;
+}
+
+.luxury-nav-links a:hover::after {
+  width: 100%;
+}
+
+
+/* =========================================================
+   RIGHT SIDE ACTIONS
+========================================================= */
+
+.luxury-nav-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 9px;
+}
+
+
+/* =========================================================
+   ORDER NOW BUTTON
+========================================================= */
+
+.luxury-order-button {
+  min-height: 44px;
+
+  padding: 0 23px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #caa56a;
+
+  background: #caa56a;
+
+  color: #18120c;
 
   font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.logout-btn {
-  padding: 0 14px;
+.luxury-order-button:hover {
+  background: #e1c080;
 
-  color: #6f6f6f;
+  border-color: #e1c080;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 28px rgba(202, 165, 106, 0.18);
 }
 
-.mobile-menu {
+
+/* =========================================================
+   LOGGED-IN BUTTONS
+========================================================= */
+
+.luxury-cart-icon,
+.luxury-user-icon,
+.luxury-logout {
+  width: 41px;
+  height: 41px;
+
+  position: relative;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.045);
+
+  color: #f4eee5;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.luxury-cart-icon:hover,
+.luxury-user-icon:hover,
+.luxury-logout:hover {
+  border-color: #caa56a;
+
+  background: rgba(202, 165, 106, 0.13);
+
+  color: #d9b775;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CART COUNT
+========================================================= */
+
+.luxury-cart-icon span {
+  position: absolute;
+
+  right: -4px;
+  top: -5px;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 4px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #caa56a;
+
+  color: #18110c;
+
+  font-size: 8px;
+  font-weight: 900;
+
+  border: 2px solid #11100d;
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.luxury-mobile-toggle {
   display: none;
 
-  border: 0;
-  background: transparent;
+  width: 40px;
+  height: 40px;
 
-  color: var(--dark);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #ffffff;
+
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.25s ease;
 }
 
-@media (max-width: 800px) {
+.luxury-mobile-toggle:hover {
+  border-color: #caa56a;
 
-  .navbar-inner {
-    width:
-      calc(100% - 28px);
+  color: #caa56a;
+}
 
-    min-height: 70px;
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .luxury-navbar {
+    grid-template-columns: 180px 1fr 180px;
+
+    padding: 0 28px;
   }
 
-  .mobile-menu {
-    display: grid;
-    place-items: center;
+  .luxury-brand {
+    font-size: 19px;
+
+    letter-spacing: 4px;
   }
 
-  .nav-links {
+  .luxury-nav-links {
+    gap: 22px;
+  }
+
+  .luxury-nav-links a {
+    font-size: 10px;
+
+    letter-spacing: 1px;
+  }
+
+  .luxury-order-button {
+    padding: 0 17px;
+
+    font-size: 9px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE / TABLET MENU
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .luxury-navbar {
+    min-height: 76px;
+
+    padding: 0 22px;
+
+    grid-template-columns: 1fr auto auto;
+  }
+
+
+  /* LOGO */
+
+  .luxury-brand {
+    font-size: 18px;
+
+    letter-spacing: 4px;
+  }
+
+
+  /* MENU ICON */
+
+  .luxury-mobile-toggle {
+    display: flex;
+
+    margin-right: 10px;
+  }
+
+
+  /* MOBILE NAVIGATION PANEL */
+
+  .luxury-nav-links {
     position: absolute;
 
-    top: 70px;
-    left: 14px;
-    right: 14px;
+    top: 76px;
+    left: 0;
+    right: 0;
 
     padding: 20px;
 
+    display: flex;
+
     flex-direction: column;
+
     align-items: stretch;
 
-    gap: 12px;
+    gap: 0;
 
-    background: white;
+    background: rgba(11, 10, 8, 0.98);
 
-    border:
-      1px solid var(--border);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 
-    border-radius: 20px;
+    border-bottom: 1px solid rgba(202, 165, 106, 0.18);
 
-    box-shadow: var(--shadow);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 
     opacity: 0;
+
     visibility: hidden;
 
-    transform:
-      translateY(-10px);
+    pointer-events: none;
 
-    transition: 0.2s;
+    transform: translateY(-10px);
+
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease,
+      transform 0.25s ease;
   }
 
-  .nav-links.nav-open {
+  .luxury-nav-links.open {
     opacity: 1;
+
     visibility: visible;
 
-    transform:
-      translateY(0);
+    pointer-events: auto;
+
+    transform: translateY(0);
   }
 
-  .nav-links > a {
-    padding: 10px;
-  }
 
-  .nav-auth,
-  .nav-user-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  /* MOBILE LINKS */
 
-  .nav-cta,
-  .login-link {
-    text-align: center;
-  }
-
-  .dashboard-icon {
+  .luxury-nav-links a {
     width: 100%;
+
+    padding: 16px 12px;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    font-size: 12px;
+
+    text-align: center;
+
+    letter-spacing: 1.5px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .cart-nav-btn,
-  .logout-btn {
-    justify-content: center;
+  .luxury-nav-links a:last-child {
+    border-bottom: 0;
+  }
+
+  .luxury-nav-links a:hover {
+    color: #d9b775;
+
+    transform: none;
+  }
+
+  .luxury-nav-links a::after {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  .luxury-navbar {
+    min-height: 70px;
+
+    padding: 0 14px;
+  }
+
+  .luxury-brand {
+    font-size: 15px;
+
+    letter-spacing: 3px;
+  }
+
+  .luxury-mobile-toggle {
+    width: 36px;
+    height: 36px;
+
+    margin-right: 5px;
+  }
+
+  .luxury-order-button {
+    min-height: 37px;
+
+    padding: 0 12px;
+
+    font-size: 8px;
+
+    letter-spacing: 0.6px;
+  }
+
+  .luxury-cart-icon,
+  .luxury-user-icon,
+  .luxury-logout {
+    width: 36px;
+    height: 36px;
+  }
+
+  .luxury-nav-actions {
+    gap: 5px;
+  }
+
+  .luxury-nav-links {
+    top: 70px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 390px) {
+
+  .luxury-brand {
+    font-size: 14px;
+
+    letter-spacing: 2px;
+  }
+
+  .luxury-order-button {
+    padding: 0 10px;
+
+    font-size: 7px;
   }
 }

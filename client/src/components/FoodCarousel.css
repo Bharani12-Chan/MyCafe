@@ -1,0 +1,217 @@
+.carousel-section {
+  padding:
+    110px 0 120px;
+
+  overflow: hidden;
+
+  background: var(--cream);
+}
+
+.carousel-heading {
+  width: min(1180px, calc(100% - 40px));
+
+  margin:
+    0 auto 42px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+.carousel-heading > div > span {
+  color: var(--caramel);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.carousel-heading h2 {
+  margin-top: 9px;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(43px, 5vw, 67px);
+
+  line-height: 0.98;
+
+  letter-spacing: -3px;
+}
+
+.carousel-heading > p {
+  max-width: 290px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.6;
+}
+
+.carousel-viewport {
+  width: 100%;
+
+  overflow: hidden;
+}
+
+.carousel-track {
+  width: max-content;
+
+  display: flex;
+
+  gap: 22px;
+
+  padding-left: max(
+    20px,
+    calc((100vw - 1180px) / 2)
+  );
+
+  animation:
+    carouselAuto 38s linear infinite;
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+.carousel-card {
+  width: 340px;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  border-radius: 25px;
+
+  background: white;
+
+  border:
+    1px solid var(--border);
+
+  transition: 0.35s;
+}
+
+.carousel-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: var(--shadow);
+}
+
+.carousel-image {
+  height: 360px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.carousel-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.6s;
+}
+
+.carousel-card:hover img {
+  transform: scale(1.07);
+}
+
+.carousel-image > span {
+  position: absolute;
+
+  right: 15px;
+  top: 15px;
+
+  padding: 7px 10px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  border-radius: 50px;
+
+  background:
+    rgba(22, 12, 8, 0.88);
+
+  color: #efb36f;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.carousel-info {
+  padding: 19px;
+}
+
+.carousel-info small {
+  color: var(--caramel);
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.carousel-info > div {
+  margin-top: 6px;
+
+  display: flex;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.carousel-info h3 {
+  font-family: "Playfair Display", serif;
+
+  font-size: 18px;
+}
+
+.carousel-info strong {
+  color: var(--caramel);
+}
+
+@keyframes carouselAuto {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform:
+      translateX(calc(-50% - 11px));
+  }
+}
+
+@media (max-width: 600px) {
+
+  .carousel-section {
+    padding:
+      75px 0;
+  }
+
+  .carousel-heading {
+    width: calc(100% - 28px);
+
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .carousel-card {
+    width: 280px;
+  }
+
+  .carousel-image {
+    height: 310px;
+  }
+}
